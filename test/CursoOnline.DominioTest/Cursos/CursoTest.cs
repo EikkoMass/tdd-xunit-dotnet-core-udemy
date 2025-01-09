@@ -13,7 +13,7 @@ public class CursoTest
         var cursoEsperado = new
         {
             Nome = "Informatica Basica",
-            PublicoAlvo = "Estudantes",
+            PublicoAlvo = PublicoAlvo.Estudante,
             Valor = (double) 950,
             CargaHoraria = (double) 80
         };
@@ -26,14 +26,21 @@ public class CursoTest
     }
 }
 
+public enum PublicoAlvo {
+    Estudante,
+    Universitario,
+    Empregado,
+    Empreendedor
+}
+
 public class Curso
 {
     public string Nome { get; private set; }
     public double CargaHoraria { get; private set; }
-    public string PublicoAlvo { get; private set; }
+    public PublicoAlvo PublicoAlvo { get; private set; }
     public double Valor { get; private set; }
 
-    public Curso(string nome, double cargaHoraria, string publicoAlvo, double valor)
+    public Curso(string nome, double cargaHoraria, PublicoAlvo publicoAlvo, double valor)
     {
         // throw new Exception();
         
