@@ -1,3 +1,4 @@
+using ExpectedObjects;
 using Microsoft.VisualStudio.TestPlatform.Common.Telemetry;
 using Xunit;
 
@@ -9,19 +10,19 @@ public class CursoTest
     public void DeveCriarCurso()
     {
         // Arrange
-        var nome = "Informatica Basica";
-        string publicoAlvo = "Estudantes";
-        double valor = 950;
-        double cargaHoraria = 80;
+        var cursoEsperado = new
+        {
+            Nome = "Informatica Basica",
+            PublicoAlvo = "Estudantes",
+            Valor = (double) 950,
+            CargaHoraria = (double) 80
+        };
         
         // Act 
-        var curso = new Curso(nome, cargaHoraria, publicoAlvo, valor);
+        var curso = new Curso(cursoEsperado.Nome, cursoEsperado.CargaHoraria, cursoEsperado.PublicoAlvo, cursoEsperado.Valor);
         
         // Assert
-        Assert.Equal(nome, curso.Nome);
-        Assert.Equal(cargaHoraria, curso.CargaHoraria);
-        Assert.Equal(publicoAlvo, curso.PublicoAlvo);
-        Assert.Equal(valor, curso.Valor);
+        cursoEsperado.ToExpectedObject().ShouldMatch(curso);
     }
 }
 
