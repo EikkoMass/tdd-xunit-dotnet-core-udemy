@@ -1,5 +1,6 @@
 using Bogus;
 using CursoOnline.Dominio.Cursos;
+using CursoOnline.DominioTest._Util;
 using Moq;
 using Xunit;
 
@@ -19,7 +20,7 @@ public class ArmazenadorDeCursoTest
             Nome = faker.Random.Words(),
             Descricao = faker.Lorem.Paragraphs(),
             CargaHoraria = faker.Random.Double(50, 1000),
-            PublicoAlvoId = 1,
+            PublicoAlvo = "Estudante",
             Valor = faker.Random.Double(1000, 2000),
         };
         
@@ -42,6 +43,15 @@ public class ArmazenadorDeCursoTest
             Times.AtLeastOnce
         );
     }
+
+    [Fact]
+    public void NaoDeveInformarPublicoAlvoInvalido()
+    {
+        _cursoDto.PublicoAlvo = "Medico";
+        
+        Assert.Throws<ArgumentException>(() => _armazenador.Armazenar(_cursoDto))
+            .ComMensagem("Publico Alvo invalido");
+    }
 }
 
 public class ArmazenadorDeCurso
@@ -55,7 +65,14 @@ public class ArmazenadorDeCurso
     
     public void Armazenar(CursoDTO cursoDto)
     {
-        var curso = new Curso(cursoDto.Nome, cursoDto.Descricao, cursoDto.CargaHoraria, PublicoAlvo.Estudante, cursoDto.Valor);
+        Enum.TryParse(typeof(PublicoAlvo), cursoDto.PublicoAlvo, out var publicoAlvo);
+
+        if (publicoAlvo == null)
+        {
+            throw new ArgumentException("Publico Alvo invalido");
+        }
+        
+        var curso = new Curso(cursoDto.Nome, cursoDto.Descricao, cursoDto.CargaHoraria, (PublicoAlvo) publicoAlvo, cursoDto.Valor);
         
         _cursoRepositorio.Adicionar(curso);
     }
@@ -71,6 +88,6 @@ public class CursoDTO
     public string Nome { get; set; }
     public string Descricao { get; set; }
     public double CargaHoraria { get; set; }
-    public int PublicoAlvoId { get; set; }
+    public string PublicoAlvo { get; set; }
     public double Valor { get; set; }
 }
