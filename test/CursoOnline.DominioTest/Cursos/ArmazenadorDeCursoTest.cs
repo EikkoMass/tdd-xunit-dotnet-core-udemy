@@ -1,5 +1,6 @@
 using Bogus;
 using CursoOnline.Dominio.Cursos;
+using CursoOnline.DominioTest._Builders;
 using CursoOnline.DominioTest._Util;
 using Moq;
 using Xunit;
@@ -8,14 +9,14 @@ namespace CursoOnline.DominioTest.Cursos;
 
 public class ArmazenadorDeCursoTest
 {
-    private readonly CursoDTO _cursoDto;
+    private readonly CursoDto _cursoDto;
     private readonly Mock<ICursoRepositorio> _cursoRepositorioMock;
     private readonly ArmazenadorDeCurso _armazenador;
     
     public ArmazenadorDeCursoTest()
     {
         var faker = new Faker();
-        _cursoDto = new CursoDTO
+        _cursoDto = new CursoDto()
         {
             Nome = faker.Random.Words(),
             Descricao = faker.Lorem.Paragraphs(),
@@ -52,42 +53,15 @@ public class ArmazenadorDeCursoTest
         Assert.Throws<ArgumentException>(() => _armazenador.Armazenar(_cursoDto))
             .ComMensagem("Publico Alvo invalido");
     }
-}
 
-public class ArmazenadorDeCurso
-{
-    private readonly ICursoRepositorio _cursoRepositorio;
-    
-    public ArmazenadorDeCurso(ICursoRepositorio cursoRepositorio)
+    [Fact]
+    public void NaoDeveAdicionarCursoComMesmoNomeDeOutroJaSalvo()
     {
-        _cursoRepositorio = cursoRepositorio;
-    }
-    
-    public void Armazenar(CursoDTO cursoDto)
-    {
-        Enum.TryParse(typeof(PublicoAlvo), cursoDto.PublicoAlvo, out var publicoAlvo);
+        var cursoJaSalvo = CursoBuilder.Novo().ComNome(_cursoDto.Nome).Build();
 
-        if (publicoAlvo == null)
-        {
-            throw new ArgumentException("Publico Alvo invalido");
-        }
+        _cursoRepositorioMock.Setup(r => r.ObterPeloNome(_cursoDto.Nome)).Returns(cursoJaSalvo);
         
-        var curso = new Curso(cursoDto.Nome, cursoDto.Descricao, cursoDto.CargaHoraria, (PublicoAlvo) publicoAlvo, cursoDto.Valor);
-        
-        _cursoRepositorio.Adicionar(curso);
+        Assert.Throws<ArgumentException>(() => _armazenador.Armazenar(_cursoDto))
+            .ComMensagem("Nome do curso ja consta no banco de dados");
     }
-}
-
-public interface ICursoRepositorio
-{
-    void Adicionar(Curso curso);
-}
-
-public class CursoDTO
-{
-    public string Nome { get; set; }
-    public string Descricao { get; set; }
-    public double CargaHoraria { get; set; }
-    public string PublicoAlvo { get; set; }
-    public double Valor { get; set; }
 }
