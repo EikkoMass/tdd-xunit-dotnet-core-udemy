@@ -1,3 +1,4 @@
+using Bogus;
 using CursoOnline.DominioTest._Builders;
 using CursoOnline.DominioTest._Util;
 using ExpectedObjects;
@@ -20,12 +21,14 @@ public class CursoTest : IDisposable
     public CursoTest(ITestOutputHelper output)
     {
         _output = output;
+        _output.WriteLine("Construtor sendo executado");
+        var faker = new Faker();
 
-        _nome = "Informatica Basica";
-        _cargaHoraria = 80;
-        _valor = 950;
+        _nome = faker.Random.Word();
+        _cargaHoraria = faker.Random.Double(50, 1000);
+        _valor = faker.Random.Double(100, 1000);
         _publicoAlvo = PublicoAlvo.Estudante;
-        _descricao = "Uma descricao";
+        _descricao = faker.Lorem.Paragraph();
     }
     
     public void Dispose()
