@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\CursoOnline.Ioc\CursoOnline.Ioc.csproj" />
       <ProjectReference Include="..\CursoOnline.Dados\CursoOnline.Dados.csproj" />
       <ProjectReference Include="..\CursoOnline.Dominio\CursoOnline.Dominio.csproj" />
     </ItemGroup>

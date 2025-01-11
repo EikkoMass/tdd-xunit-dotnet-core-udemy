@@ -3,10 +3,12 @@ using CursoOnline.Dados.Repositorios;
 using CursoOnline.Dominio._Base;
 using CursoOnline.Dominio.Cursos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace CursoOnline.Web;
+namespace CursoOnline.Ioc;
 
-public class Setup
+public static class StartupIoc
 {
     public static void BuildServices(IServiceCollection services, IConfiguration configuration)
     {

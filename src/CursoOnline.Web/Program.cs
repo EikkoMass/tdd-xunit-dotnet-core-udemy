@@ -1,8 +1,9 @@
+using CursoOnline.Ioc;
 using CursoOnline.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Setup.BuildServices(builder.Services, builder.Configuration);
+StartupIoc.BuildServices(builder.Services, builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
