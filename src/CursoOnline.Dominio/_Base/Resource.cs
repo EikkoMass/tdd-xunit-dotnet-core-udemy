@@ -10,4 +10,8 @@ public static class Resource
     public static string CpfInvalido = "CPF invalido";
     public static string EmailInvalido = "Email invalido";
     public static string CpfJaCadastrado = "CPF ja cadastrado";
+    public static string AlunoInvalido = "Aluno Invalido";
+    public static string CursoInvalido = "Curso Invalido";
+    public static string ValorPagoInvalido = "Valor pago invalido";
+    public static string ValorPagoMaiorQueValorDoCurso = "Valor pago na matricula nao pode ser maior que o valor do curso";
 }
