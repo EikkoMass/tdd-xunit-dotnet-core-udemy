@@ -26,4 +26,31 @@ public class Curso : Entidade
         PublicoAlvo = publicoAlvo;
         Valor = valor;
     }
+
+    public void AlterarNome(string nome)
+    {
+        ValidadorDeRegra.Novo()
+            .Quando(string.IsNullOrEmpty(nome), "Nome Invalido")
+            .DispararExcecaoSeExistir();
+        
+        Nome = nome;
+    }
+
+    public void AlterarCargaHoraria(double cargaHoraria)
+    {
+        ValidadorDeRegra.Novo()
+            .Quando(cargaHoraria < 1, "Carga Horaria Invalida")
+            .DispararExcecaoSeExistir();
+        
+        CargaHoraria = cargaHoraria;
+    }
+
+    public void AlterarValor(double valor)
+    {
+        ValidadorDeRegra.Novo()
+            .Quando(valor < 1, "Valor Invalido")
+            .DispararExcecaoSeExistir();
+        
+        Valor = valor;
+    }
 }
