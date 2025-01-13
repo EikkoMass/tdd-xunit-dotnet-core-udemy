@@ -14,7 +14,10 @@ public class ArmazenadorDeAluno
     
     public void Armazenar(AlunoDto alunoDto)
     {
+        var mesmoAluno = _alunoRepositorio.ObterPorCpf(alunoDto.Cpf);
+        
         ValidadorDeRegra.Novo()
+            .Quando(mesmoAluno != null && alunoDto.Id != mesmoAluno.Id, Resource.CpfJaCadastrado)
             .Quando(!Enum.TryParse<PublicoAlvo>(alunoDto.PublicoAlvo, out var publicoAlvo), Resource.PublicoAlvoInvalido)
             .DispararExcecaoSeExistir();
 

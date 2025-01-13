@@ -4,4 +4,6 @@ public interface IAlunoRepositorio
 {
     void Adicionar(Aluno curso);
     Aluno ObterPorId(int id);
+    Aluno ObterPorCpf(string cpf);
+
 }

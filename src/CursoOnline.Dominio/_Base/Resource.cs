@@ -9,4 +9,5 @@ public static class Resource
     public static string PublicoAlvoInvalido = "Publico Alvo invalido";
     public static string CpfInvalido = "CPF invalido";
     public static string EmailInvalido = "Email invalido";
+    public static string CpfJaCadastrado = "CPF ja cadastrado";
 }

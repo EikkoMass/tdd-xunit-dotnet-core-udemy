@@ -16,4 +16,12 @@ public class AlunoRepositorio  : RepositorioBase<Aluno>, IAlunoRepositorio
             return entidade.First();
         return null;
     }
+    
+    public Aluno ObterPorCpf(string cpf)
+    {
+        var entidade = Context.Set<Aluno>().Where(c => c.Cpf == cpf);
+        if (entidade.Any())
+            return entidade.First();
+        return null;
+    }
 }

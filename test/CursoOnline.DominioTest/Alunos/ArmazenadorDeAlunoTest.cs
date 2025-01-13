@@ -81,4 +81,14 @@ public class ArmazenadorDeAlunoTest
         _alunoRepositorioMock.Verify(r => r.Adicionar(It.IsAny<Aluno>()), Times.Never());
     }
 
+    [Fact]
+    public void NaoDeveAdicionarAlunoComMesmoCpfDeOutroJaSalvo()
+    {
+        var alunoJaSalvo = AlunoBuilder.Novo().ComId(432).ComCpf(_alunoDto.Cpf).Build();
+
+        _alunoRepositorioMock.Setup(r => r.ObterPorCpf(_alunoDto.Cpf)).Returns(alunoJaSalvo);
+        
+        Assert.Throws<ExcecaoDeDominio>(() => _armazenador.Armazenar(_alunoDto))
+            .ComMensagem(Resource.CpfJaCadastrado);
+    }
 }
