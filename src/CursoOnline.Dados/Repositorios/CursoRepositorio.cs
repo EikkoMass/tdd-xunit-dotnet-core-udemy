@@ -16,10 +16,5 @@ namespace CursoOnline.Dados.Repositorios
                 return entidade.First();
             return null;
         }
-
-        public void Adicionar(Curso curso)
-        {
-            
-        }
     }
 }

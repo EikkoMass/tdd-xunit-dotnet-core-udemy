@@ -1,3 +1,4 @@
+using CursoOnline.Dominio._Base;
 using CursoOnline.Ioc;
 using CursoOnline.Web;
 
@@ -9,6 +10,14 @@ StartupIoc.BuildServices(builder.Services, builder.Configuration);
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+app.Use(async (context, next) => //Middleware para sempre commitar
+{
+    await next.Invoke();
+    
+    var unitOfWork = (IUnitOfWork) context.RequestServices.GetService(typeof(IUnitOfWork));
+    await unitOfWork.Commit();
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
