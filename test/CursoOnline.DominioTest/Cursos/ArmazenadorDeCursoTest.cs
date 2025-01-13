@@ -3,6 +3,7 @@ using CursoOnline.Dominio._Base;
 using CursoOnline.Dominio.Cursos;
 using CursoOnline.DominioTest._Builders;
 using CursoOnline.DominioTest._Util;
+using CursoOnline.DominioTest.PublicosAlvo;
 using Moq;
 using Xunit;
 
@@ -12,6 +13,7 @@ public class ArmazenadorDeCursoTest
 {
     private readonly CursoDto _cursoDto;
     private readonly Mock<ICursoRepositorio> _cursoRepositorioMock;
+    private readonly Mock<IConversorDePublicoAlvo> _conversorDePublicoAlvo;
     private readonly ArmazenadorDeCurso _armazenador;
     
     public ArmazenadorDeCursoTest()
@@ -27,7 +29,8 @@ public class ArmazenadorDeCursoTest
         };
         
         _cursoRepositorioMock = new Mock<ICursoRepositorio>();
-        _armazenador = new ArmazenadorDeCurso(_cursoRepositorioMock.Object);
+        _conversorDePublicoAlvo = new Mock<IConversorDePublicoAlvo>();
+        _armazenador = new ArmazenadorDeCurso(_cursoRepositorioMock.Object, _conversorDePublicoAlvo.Object);
     }
     
     [Fact]
@@ -44,15 +47,6 @@ public class ArmazenadorDeCursoTest
             ),
             Times.AtLeastOnce
         );
-    }
-
-    [Fact]
-    public void NaoDeveInformarPublicoAlvoInvalido()
-    {
-        _cursoDto.PublicoAlvo = "Medico";
-        
-        Assert.Throws<ExcecaoDeDominio>(() => _armazenador.Armazenar(_cursoDto))
-            .ComMensagem(Resource.PublicoAlvoInvalido);
     }
 
     [Fact]
