@@ -14,20 +14,11 @@ public class Curso : Entidade
     
     public Curso(string nome, string descricao, double cargaHoraria, PublicoAlvo publicoAlvo, double valor)
     {
-        if (string.IsNullOrEmpty(nome))
-        {
-            throw new ArgumentException("Nome Invalido");
-        }
-        
-        if (cargaHoraria < 1)
-        {
-            throw new ArgumentException("Carga Horaria Invalida");
-        }
-        
-        if (valor < 1)
-        {
-            throw new ArgumentException("Valor Invalido");
-        }
+        ValidadorDeRegra.Novo()
+            .Quando(string.IsNullOrEmpty(nome), "Nome Invalido")
+            .Quando(cargaHoraria < 1, "Carga Horaria Invalida")
+            .Quando(valor < 1, "Valor Invalido")
+            .DispararExcecaoSeExistir();
         
         Nome = nome;
         Descricao = descricao;

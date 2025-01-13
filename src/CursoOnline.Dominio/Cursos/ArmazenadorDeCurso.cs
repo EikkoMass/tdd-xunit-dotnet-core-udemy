@@ -1,3 +1,5 @@
+using CursoOnline.Dominio._Base;
+
 namespace CursoOnline.Dominio.Cursos;
 
 public class ArmazenadorDeCurso
@@ -13,15 +15,10 @@ public class ArmazenadorDeCurso
     {
         var cursoJaSalvo = _cursoRepositorio.ObterPeloNome(cursoDto.Nome);
 
-        if (cursoJaSalvo != null)
-        {
-            throw new ArgumentException("Nome do curso ja consta no banco de dados");
-        }
-
-        if (!Enum.TryParse<PublicoAlvo>(cursoDto.PublicoAlvo, out var publicoAlvo))
-        {
-            throw new ArgumentException("Publico Alvo invalido");
-        }
+        ValidadorDeRegra.Novo()
+            .Quando(cursoJaSalvo != null, "Nome do curso ja consta no banco de dados")
+            .Quando(!Enum.TryParse<PublicoAlvo>(cursoDto.PublicoAlvo, out var publicoAlvo), "Publico Alvo invalido")
+            .DispararExcecaoSeExistir();
         
         var curso = new Curso(cursoDto.Nome, cursoDto.Descricao, cursoDto.CargaHoraria, (PublicoAlvo) publicoAlvo, cursoDto.Valor);
         

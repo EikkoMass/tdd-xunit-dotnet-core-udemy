@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CursoOnline.Dominio._Base;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CursoOnline.Web.Filters;
@@ -12,9 +13,10 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
         if (isAjax)
         {
             context.HttpContext.Response.ContentType = "application/json";
-            context.HttpContext.Response.StatusCode = 500;
-            var message = context.Exception is ArgumentException ? context.Exception.Message : "An error occured";
-            context.Result = new JsonResult(message);
+            context.HttpContext.Response.StatusCode = context.Exception is ExcecaoDeDominio ? 502 : 500;
+            context.Result = context.Exception is ExcecaoDeDominio dominio ? 
+                new JsonResult(dominio.MensagensDeErro) :
+                new JsonResult("An error occured");
             context.ExceptionHandled = true;
         }
         
