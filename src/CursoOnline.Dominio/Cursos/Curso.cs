@@ -10,6 +10,8 @@ public class Curso : Entidade
     public PublicoAlvo PublicoAlvo { get; private set; }
     public double Valor { get; private set; }
 
+    private Curso() { }
+    
     public Curso(string nome, string descricao, double cargaHoraria, PublicoAlvo publicoAlvo, double valor)
     {
         if (string.IsNullOrEmpty(nome))

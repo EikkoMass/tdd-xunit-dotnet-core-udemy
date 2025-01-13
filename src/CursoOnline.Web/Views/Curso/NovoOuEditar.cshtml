@@ -17,8 +17,17 @@
     </div>
     <div class="row form-wrapper">
         <div class="col-md-12">
-            <form id="form" class="form-horizontal" asp-action="Salvar" asp-controller="Curso" asp-anti-forgery
-                  data-ajax="true" data-ajax-method="POST" data-ajax-failure="formQuandoFalha" data-ajax-success="window.location = '/Curso'">
+            <form 
+                id="form" 
+                class="form-horizontal" 
+                asp-action="Salvar" 
+                asp-controller="Curso" 
+                asp-anti-forgery 
+                data-ajax="true" 
+                data-ajax-method="POST"  
+                data-ajax-failure="formQuandoFalha" 
+                data-ajax-success="window.location = '/Index'"
+                >
                 <input type="hidden" class="form-control" asp-for="Id">
                 <div class="form-group">
                     <label class="col-md-2 control-label">Nome</label>

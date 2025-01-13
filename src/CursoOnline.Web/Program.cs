@@ -1,13 +1,17 @@
 using CursoOnline.Dominio._Base;
 using CursoOnline.Ioc;
 using CursoOnline.Web;
+using CursoOnline.Web.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 StartupIoc.BuildServices(builder.Services, builder.Configuration);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(typeof(CustomExceptionFilter));
+});
 
 var app = builder.Build();
 
