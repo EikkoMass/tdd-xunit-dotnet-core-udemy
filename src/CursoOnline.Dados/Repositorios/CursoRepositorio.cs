@@ -16,5 +16,13 @@ namespace CursoOnline.Dados.Repositorios
                 return entidade.First();
             return null;
         }
+        
+        public Curso ObterPorId(int id)
+        {
+            var entidade = Context.Set<Curso>().Where(c => c.Id == id);
+            if (entidade.Any())
+                return entidade.First();
+            return null;
+        }
     }
 }
