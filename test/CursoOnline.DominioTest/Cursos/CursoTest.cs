@@ -9,11 +9,8 @@ using Xunit.Abstractions;
 
 namespace CursoOnline.DominioTest.Cursos;
 
-public class CursoTest : IDisposable
+public class CursoTest
 {
-
-    private readonly ITestOutputHelper _output;
-    
     private readonly string _nome;
     private readonly string _descricao;
     private readonly double _cargaHoraria;
@@ -21,10 +18,8 @@ public class CursoTest : IDisposable
     private readonly PublicoAlvo _publicoAlvo;
     private readonly Faker _faker;
     
-    public CursoTest(ITestOutputHelper output)
+    public CursoTest()
     {
-        _output = output;
-        _output.WriteLine("Construtor sendo executado");
         _faker = new Faker();
 
         _nome = _faker.Random.Word();
@@ -32,11 +27,6 @@ public class CursoTest : IDisposable
         _valor = _faker.Random.Double(100, 1000);
         _publicoAlvo = PublicoAlvo.Estudante;
         _descricao = _faker.Lorem.Paragraph();
-    }
-    
-    public void Dispose()
-    {
-        _output.WriteLine("Dispose sendo executado");
     }
     
     [Fact]
@@ -67,7 +57,7 @@ public class CursoTest : IDisposable
         
         Assert.Throws<ExcecaoDeDominio>(() => 
                 CursoBuilder.Novo().ComNome(nomeInvalido).Build())
-            .ComMensagem("Nome Invalido");
+            .ComMensagem(Resource.NomeInvalido);
     }
 
     [Theory]
@@ -79,7 +69,7 @@ public class CursoTest : IDisposable
     {
         Assert.Throws<ExcecaoDeDominio>(() => 
                 CursoBuilder.Novo().ComCargaHoraria(cargaHorariaInvalida).Build())
-            .ComMensagem("Carga Horaria Invalida"); 
+            .ComMensagem(Resource.CargaHorariaInvalida); 
     }
     
     [Theory]
@@ -91,7 +81,7 @@ public class CursoTest : IDisposable
     {
         Assert.Throws<ExcecaoDeDominio>(() =>
                 CursoBuilder.Novo().ComValor(valorInvalido).Build())
-            .ComMensagem("Valor Invalido");
+            .ComMensagem(Resource.ValorInvalido);
     }
 
     [Fact]
@@ -114,7 +104,7 @@ public class CursoTest : IDisposable
         
         Assert.Throws<ExcecaoDeDominio>(() => 
                 curso.AlterarNome(nomeInvalido))
-            .ComMensagem("Nome Invalido");
+            .ComMensagem(Resource.NomeInvalido);
     }
     
     [Fact]
@@ -139,7 +129,7 @@ public class CursoTest : IDisposable
         
         Assert.Throws<ExcecaoDeDominio>(() =>
                 curso.AlterarCargaHoraria(cargaHorariaInvalida))
-            .ComMensagem("Carga Horaria Invalida");
+            .ComMensagem(Resource.CargaHorariaInvalida);
     }
     
     [Fact]
@@ -164,6 +154,6 @@ public class CursoTest : IDisposable
         
         Assert.Throws<ExcecaoDeDominio>(() =>
                 curso.AlterarValor(valorInvalido))
-            .ComMensagem("Valor Invalido");
+            .ComMensagem(Resource.ValorInvalido);
     }
 }
