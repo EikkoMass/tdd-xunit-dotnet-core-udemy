@@ -19,7 +19,7 @@ public class MatriculaBuilder
         return new MatriculaBuilder
         {
             _aluno = AlunoBuilder.Novo().Build(),
-            _curso = CursoBuilder.Novo().Build(),
+            _curso = curso,
             _valorPago = curso.Valor
         };
     }
