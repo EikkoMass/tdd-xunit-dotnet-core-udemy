@@ -11,7 +11,7 @@
     "migration-script": "cd ./src/CursoOnline.Dados/ && dotnet ef --startup-project ../CursoOnline.Web/CursoOnline.Web.csproj migrations script",
     "remove-migration": "cd ./src/CursoOnline.Dados/ && dotnet ef --startup-project ../CursoOnline.Web/CursoOnline.Web.csproj migrations remove",
     "update-database": "cd ./src/CursoOnline.Dados/ && dotnet ef --startup-project ../CursoOnline.Web/CursoOnline.Web.csproj database update",
-    "testCafe": "./node_modules/.bin/testcafe chrome test/e2e -S -s screenshots"
+    "testCafe": "./node_modules/.bin/testcafe firefox e2e"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,8 @@
     "url": "https://github.com/EikkoMass/tdd-xunit-dotnet-core-udemy/issues"
   },
   "homepage": "https://github.com/EikkoMass/tdd-xunit-dotnet-core-udemy#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "testcafe": "^3.7.1"
+  }
 }
