@@ -12,6 +12,7 @@ public class Matricula : Entidade
     public bool TemDesconto { get; private set; }
     public double NotaDoAluno { get; private set; }
     public bool CursoConcluido { get; private set; }
+    public bool Cancelada { get; private set; }
     
     public Matricula(Aluno aluno, Curso curso, double valorPago)
     {
@@ -33,9 +34,19 @@ public class Matricula : Entidade
     {
         ValidadorDeRegra.Novo()
             .Quando(notaDoAluno < 0 || notaDoAluno > 10, Resource.NotaDoAlunoInvalida)
+            .Quando(Cancelada, Resource.MatriculaCancelada)
             .DispararExcecaoSeExistir();
         
         NotaDoAluno = notaDoAluno;
         CursoConcluido = true;
+    }
+
+    public void Cancelar()
+    {
+        ValidadorDeRegra.Novo()
+            .Quando(CursoConcluido, Resource.MatriculaConcluida)
+            .DispararExcecaoSeExistir();
+        
+        Cancelada = true;
     }
 }

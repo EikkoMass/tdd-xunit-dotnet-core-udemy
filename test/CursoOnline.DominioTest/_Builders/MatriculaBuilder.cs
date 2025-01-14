@@ -11,6 +11,8 @@ public class MatriculaBuilder
     protected Aluno _aluno;
     protected Curso _curso;
     protected double _valorPago;
+    protected bool _cancelada;
+    protected bool _concluido;
     
     public static MatriculaBuilder Novo()
     {
@@ -42,9 +44,33 @@ public class MatriculaBuilder
         return this;
     }
     
+    public MatriculaBuilder ComCancelada(bool cancelada)
+    {
+        _cancelada = cancelada;
+        return this;
+    }
+    
+    public MatriculaBuilder ComConcluido(bool concluido)
+    {
+        _concluido = concluido;
+        return this;
+    }
+    
     public Matricula Build()
     {
       var matricula = new Matricula(_aluno, _curso, _valorPago);
+
+      if (_cancelada)
+      {
+          matricula.Cancelar();
+      }
+      
+      if (_concluido)
+      {
+          double nota = 7;
+          matricula.InformarNota(nota);
+      }
+      
       return matricula;
     }
 }
