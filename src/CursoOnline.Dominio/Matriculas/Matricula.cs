@@ -4,12 +4,14 @@ using CursoOnline.Dominio.Cursos;
 
 namespace CursoOnline.Dominio.Matriculas;
 
-public class Matricula
+public class Matricula : Entidade
 {
     public Aluno Aluno { get; private set; }
     public Curso Curso { get; private set; }
     public double ValorPago { get; private set; }
     public bool TemDesconto { get; private set; }
+    public double NotaDoAluno { get; private set; }
+    public bool CursoConcluido { get; private set; }
     
     public Matricula(Aluno aluno, Curso curso, double valorPago)
     {
@@ -25,5 +27,15 @@ public class Matricula
         Curso = curso;
         ValorPago = valorPago;
         TemDesconto = valorPago < Curso.Valor;
+    }
+
+    public void InformarNota(double notaDoAluno)
+    {
+        ValidadorDeRegra.Novo()
+            .Quando(notaDoAluno < 0 || notaDoAluno > 10, Resource.NotaDoAlunoInvalida)
+            .DispararExcecaoSeExistir();
+        
+        NotaDoAluno = notaDoAluno;
+        CursoConcluido = true;
     }
 }

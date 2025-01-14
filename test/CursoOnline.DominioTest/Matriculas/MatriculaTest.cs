@@ -92,4 +92,37 @@ public class MatriculaTest
         Assert.Throws<ExcecaoDeDominio>(() => MatriculaBuilder.Novo().ComAluno(aluno).ComCurso(curso).Build())
             .ComMensagem(Resource.PublicosAlvoDiferentes);
     }
+
+    [Fact]
+    public void DeveInformarNotaDoAlunoParMatricula()
+    {
+        const double notaDoAlunoEsperada = 9.5;
+        var matricula = MatriculaBuilder.Novo().Build();
+        
+        matricula.InformarNota(notaDoAlunoEsperada);
+
+        Assert.Equal(notaDoAlunoEsperada, matricula.NotaDoAluno);
+    }
+    
+    [Fact]
+    public void DeveIndicarQueCursoFoiConcluido()
+    {
+        const double notaDoAlunoEsperada = 9.5;
+        var matricula = MatriculaBuilder.Novo().Build();
+        
+        matricula.InformarNota(notaDoAlunoEsperada);
+
+        Assert.True(matricula.CursoConcluido);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(11)]
+    public void NaoDeveInformarComNotaInvalida(double notaDoAlunoInvalida)
+    {
+        var matricula = MatriculaBuilder.Novo().Build();
+        
+        Assert.Throws<ExcecaoDeDominio>(() => matricula.InformarNota(notaDoAlunoInvalida))
+            .ComMensagem(Resource.NotaDoAlunoInvalida);
+    }
 }
