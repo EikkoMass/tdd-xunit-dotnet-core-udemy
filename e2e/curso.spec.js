@@ -1,16 +1,19 @@
 import { Selector } from 'testcafe';
+import Curso from './pagesmodel/curso';
+
+const curso = new Curso();
 
 fixture('Curso')
-  .page('https://localhost:3000/Curso/Novo')
+  .page(`${curso.url}/Novo`)
 
   test('Deve criar um novo curso', async t => {
-      await t.typeText(Selector("[name='Nome']"), 'Curso TestCafe ' + (new Date()).toString());
-      await t.typeText(Selector("[name='Descricao']"), 'teste')
-      await t.typeText(Selector("[name='CargaHoraria']"), '10')
-      await t.click(Selector("[name='PublicoAlvo']"))
-      await t.click(Selector("option[value='Empregado']"))
-      await t.click(Selector("[value='Online']"))
-      await t.typeText(Selector("[name='Valor']"), '1000')
+      await t.typeText(curso.inputNome, 'Curso TestCafe ' + (new Date()).toString());
+      await t.typeText(curso.inputDescricao, 'teste')
+      await t.typeText(curso.inputCargaHoraria, '10')
+      await t.click(curso.inputPublicoAlvo)
+      await t.click(curso.optionPublicoAlvo)
+      await t.click(curso.inputRadio)
+      await t.typeText(curso.inputValor, '1000')
 
       await t.click(Selector(".btn-success"))
       
